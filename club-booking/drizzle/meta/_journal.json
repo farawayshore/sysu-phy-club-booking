@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791424952078,
+      "tag": "0000_shallow_bloodstorm",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791425814506,
+      "tag": "0001_young_war_machine",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791432553774,
+      "tag": "0002_curriculum_documents",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "physics-club-booking",
+  "account_id": "f8f6e5eb8c25f30da5e3af3f54a994a6",
+  "main": "build/cloudflare-worker.ts",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "physics-club-booking-db",
+      "database_id": "a4c58e38-a2e2-4c21-83c3-cb30f355a696",
+      "migrations_dir": "drizzle"
+    }
+  ]
+}

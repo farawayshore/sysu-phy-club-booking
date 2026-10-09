@@ -1,0 +1,15 @@
+**/.DS_Store
+**/node_modules/
+**/outputs/
+**/dist/
+**/.next/
+**/.vinext/
+**/.wrangler/
+**/.sites-runtime/
+**/.openai/
+**/.env*
+**/*.tsbuildinfo
+**/__pycache__/
+/_site/
+/peiyangfangan/*.html
+/peiyangfangan/*_files/

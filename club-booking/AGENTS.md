@@ -1,0 +1,10 @@
+# 物院社团时间预约
+
+- 这是独立 Git 项目。先阅读 README.md 及 plans/other/club-booking-handoff.md。
+- 保留已有工作区修改；未获要求不要重置、删除记录、创建替代线上站点或改变原 Sites 标识。
+- 网页与本地 HTML 共用 app/page.tsx 和 app/globals.css；改动后运行 node scripts/export-html.mjs 更新两个导出文件。
+- 当前本地预约及课表存储 key 必须保持兼容。不要把本地存储表述为跨设备共享数据。
+- 不调用付费 API。用户界面使用中文；桌面与手机布局均需兼容。
+- 课表源是 data/timetables.json。不要把外部 Dida 任务 ID、老师或学生个人信息混入导出数据。
+- 计划、交接和决策文档放 plans/；网页及验证输出放 outputs/。
+- 改动后执行与改动相关的类型检查、已有测试与构建；发布完成必须有实际部署证据。

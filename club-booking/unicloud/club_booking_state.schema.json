@@ -1,0 +1,1 @@
+{"bsonType": "object", "required": ["revision", "payload"], "permission": {"read": false, "create": false, "update": false, "delete": false}, "properties": {"_id": {"bsonType": "string"}, "revision": {"bsonType": "int"}, "payload": {"bsonType": "string"}}}

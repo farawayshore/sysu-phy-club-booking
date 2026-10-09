@@ -1,0 +1,1 @@
+ALTER TABLE `bookings` ADD `location` text DEFAULT '' NOT NULL;
