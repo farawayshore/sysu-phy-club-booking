@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {build} from 'esbuild';
 const built=await build({entryPoints:['app/curriculum.ts'],bundle:true,write:false,format:'esm',platform:'node'});
-const {validateCurriculum,parseWeeks,courseEntries,findCourseConflicts,defaultCourseFilter,availableGroups}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
+const {validateCurriculum,parseWeeks,courseEntries,findCourseConflicts,defaultCourseFilter,availableGroups,curriculumForBrowser,CURRICULUM_KEY}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
 const fixture=JSON.parse(await readFile(new URL('../data/timetables.json',import.meta.url),'utf8'));
 const id=fixture.timetables[0].id;
 const entries=(date,data=fixture,ids=[id])=>courseEntries(data,ids,[date]);
@@ -79,7 +79,8 @@ test('invalid major/class data is rejected, legacy unclassified courses remain c
   data.timetables[0].courses[0].audiences=[{major:patch.major,group:patch.group,requirement:'required'}];
   assert.throws(()=>validateCurriculum(data));
  }
- assert.ok(entries('2026-10-08').every(c=>c.courseTypes.join(',')==='unknown'));
+ const legacy=structuredClone(fixture);for(const c of legacy.timetables[0].courses)delete c.audiences;
+ assert.ok(entries('2026-10-08',legacy).every(c=>c.courseTypes.join(',')==='unknown'));
 });
 
 
@@ -89,4 +90,38 @@ test('year four inherits both special overlays while defaults remain the base ti
  assert.deepEqual(availableGroups(tables.find(t=>t.grade===2)),['elite']);
  for(const grade of [3,4])assert.deepEqual(availableGroups(tables.find(t=>t.grade===grade)),['elite','theory']);
  for(const t of tables)assert.deepEqual(defaultCourseFilter(t).groups,[]);
+});
+
+
+test('reviewed current rules distinguish required and elective without hiding ordinary physics electives',()=>{
+ const courses=fixture.timetables[0].courses;
+ assert.equal(courses.filter(c=>c.audiences?.[0].requirement==='required').length,13);
+ assert.equal(courses.filter(c=>c.audiences?.[0].requirement==='elective').length,12);
+ assert.ok(courses.every(c=>c.audiences?.[0].major==='physics'&&c.audiences[0].group==='all'));
+ const visible=entries('2026-10-08');
+ assert.deepEqual(visible.map(c=>c.courseTone),['required','required','required','elective']);
+ assert.equal(courseEntries(fixture,[id],['2026-10-08'],{[id]:{majors:['optical'],groups:[],types:['required','elective','unknown','activity']}}).length,0);
+});
+
+test('public electives stay stored but do not appear or trigger course conflicts',()=>{
+ const data=structuredClone(fixture);data.timetables[0].courses.forEach(c=>c.hiddenReason='public-elective');
+ validateCurriculum(data);assert.equal(data.timetables[0].courses.length,25);
+ assert.deepEqual(entries('2026-10-08',data),[]);
+ assert.deepEqual(findCourseConflicts(data,[id],{date:'2026-10-08',start:'08:00',end:'23:00'}),[]);
+ data.timetables[0].courses[0].hiddenReason='unsupported';assert.throws(()=>validateCurriculum(data));
+});
+
+test('legacy local labels update without losing stored edits or overriding explicit labels',()=>{
+ const saved=structuredClone(fixture);saved.timetables[0].courses.forEach(c=>delete c.audiences);
+ saved.timetables[0].courses[0].location='用户修改的地点';
+ saved.timetables[0].courses[1].audiences=[];
+ saved.timetables[0].courses[2].hiddenReason='public-elective';
+ saved.timetables[0].courses[3].name='用户自定义课程';
+ const raw=JSON.stringify(saved);const old=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
+ Object.defineProperty(globalThis,'localStorage',{configurable:true,writable:true,value:{getItem:key=>key===CURRICULUM_KEY?raw:null,setItem(){assert.fail('Read must not overwrite stored data')}}});
+ try{
+  const merged=curriculumForBrowser(fixture).timetables[0].courses;
+  assert.equal(merged[0].location,'用户修改的地点');assert.equal(merged[0].audiences[0].requirement,'elective');
+  assert.deepEqual(merged[1].audiences,[]);assert.equal(merged[2].hiddenReason,'public-elective');assert.equal(merged[3].audiences,undefined);
+ }finally{if(old===undefined)delete globalThis.localStorage;else Object.defineProperty(globalThis,'localStorage',old)}
 });

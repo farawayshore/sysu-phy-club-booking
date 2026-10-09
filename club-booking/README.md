@@ -1,8 +1,8 @@
 # 物院社团时间预约
 
-## 本地待发布：专业与班型课表筛选
+## 专业与班型课表筛选
 
-2026-10-08 本地新增年级→专业→特殊班型叠加与必修/选修过滤。大一不分专业；大二有物理学/光信与拔尖班，大三、大四另可叠加理论物理国际班。特殊班型默认不勾选，无“普通班”开关。原 25 条课程尚待培养方案核对，未猜测分类。培养方案原件放 `resources/program-plans/`，不参与网页、云函数打包或数据库上传。详见 `plans/curriculum-classification.md`。本轮未发布、未访问云数据库，明天用户继续后再部署验证。
+2026-10-08 本地新增年级→专业→特殊班型叠加与必修/选修过滤。大一不分专业；大二有物理学/光信与拔尖班，大三、大四另可叠加理论物理国际班。特殊班型默认不勾选，无“普通班”开关。现有 25 条排课已按提供的 2024 级方案核对：8 门必修、4 门专业选修；经全部方案核对仍未提及的公共选修不显示，本次没有此类课程。培养方案原件放 `resources/program-plans/`，不参与网页、云函数打包或数据库上传。详见 `plans/curriculum-classification.md`。2026-10-09 前后端同步发布，部署验证见 plans/oct09-release.md。
 
 ## 2026-10-08 最新部署：GitHub Pages + uniCloud
 
@@ -21,13 +21,13 @@
 
 独立项目目录：`~/Projects/club booking project/club-booking`。旧路径 `~/Projects/club-booking` 保留为兼容符号链接。
 
-React 前端部署到 GitHub Pages，Cloudflare Workers 提供 API，D1 保存预约和课表，附可直接打开的本地单文件 HTML。历史 Sites 配置仅保留归档，不参与当前构建或发布。
+React 前端部署到 GitHub Pages，uniCloud 云函数提供 API，云数据库保存预约和课表，附可直接打开的本地单文件 HTML。历史 Sites 配置仅保留归档，不参与当前构建或发布。
 
 ## 打开网页
 
 线上网站：https://farawayshore.github.io/sysu-phy-club-booking/
 
-直接打开 `outputs/物院社团时间预约.html`，无需启动服务。本地版预约和手动导入的课表保存在当前浏览器，与线上 D1 不同步。
+直接打开 `outputs/物院社团时间预约.html`，无需启动服务。本地版预约及历史课表缓存保存在当前浏览器，与线上数据库不自动同步。网页和本地页均为课表只读；管理员修改 data/timetables.json 后重新导出，正式课表须经已登录的 uniCloud 控制台更新。当前尚未实现网站内的管理员登录。
 
 迁移前的目录 `~/AI/ai_works/club-booking` 现在是指向本项目的兼容链接。已有本地预约或课表时，继续用原 HTML 地址打开；浏览器可能按 `file://` 地址分别保存数据，新地址不会自动继承旧地址的数据。迁移没有删除或修改浏览器存储。
 

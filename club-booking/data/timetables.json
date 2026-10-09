@@ -6,7 +6,7 @@
       "label": "大三",
       "term": "2026学年度第一学期",
       "week1Monday": "2026-09-07",
-      "note": "试用数据：个人选课课表，尚不代表全年级；按原课表周次显示，节假日及调课请手动更新。",
+      "note": "个人选课课表，尚不代表全年级。已按2024级物理学及拔尖计划方案核对必修/选修；当前仅录入物理学上课时间，光信及国际班专属课表待补。",
       "courses": [
         {
           "id": "c01",
@@ -24,7 +24,14 @@
           ],
           "start": "08:00",
           "end": "09:40",
-          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c02",
@@ -42,7 +49,14 @@
           ],
           "start": "08:00",
           "end": "11:50",
-          "location": ""
+          "location": "",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c03",
@@ -60,7 +74,14 @@
           ],
           "start": "08:00",
           "end": "11:50",
-          "location": ""
+          "location": "",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c04",
@@ -87,7 +108,14 @@
           ],
           "start": "08:00",
           "end": "09:40",
-          "location": "南校园-第五教学楼(逸夫楼)-逸203(115座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸203(115座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c05",
@@ -101,7 +129,14 @@
           ],
           "start": "08:00",
           "end": "09:40",
-          "location": "南校园-第五教学楼(逸夫楼)-逸206(78座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸206(78座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c06",
@@ -116,7 +151,14 @@
           ],
           "start": "08:00",
           "end": "09:40",
-          "location": "南校园-第五教学楼(逸夫楼)-逸206(78座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸206(78座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c07",
@@ -134,7 +176,14 @@
           ],
           "start": "10:10",
           "end": "11:50",
-          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c08",
@@ -153,7 +202,14 @@
           ],
           "start": "10:10",
           "end": "11:50",
-          "location": "南校园-第五教学楼(逸夫楼)-逸305(71座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸305(71座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c09",
@@ -171,7 +227,14 @@
           ],
           "start": "10:10",
           "end": "11:50",
-          "location": "南校园-第五教学楼(逸夫楼)-逸305(71座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸305(71座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c10",
@@ -189,7 +252,14 @@
           ],
           "start": "14:20",
           "end": "16:00",
-          "location": ""
+          "location": "",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c11",
@@ -216,7 +286,14 @@
           ],
           "start": "14:20",
           "end": "16:00",
-          "location": "南校园-第五教学楼(逸夫楼)-逸203(115座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸203(115座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c12",
@@ -230,7 +307,14 @@
           ],
           "start": "14:20",
           "end": "16:00",
-          "location": "南校园-第五教学楼(逸夫楼)-逸407(78座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸407(78座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c13",
@@ -245,7 +329,14 @@
           ],
           "start": "14:20",
           "end": "16:00",
-          "location": "南校园-第五教学楼(逸夫楼)-逸407(78座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸407(78座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c14",
@@ -263,7 +354,14 @@
           ],
           "start": "14:20",
           "end": "16:00",
-          "location": "南校园-第五教学楼(逸夫楼)-逸407(78座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸407(78座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c15",
@@ -275,7 +373,14 @@
           ],
           "start": "14:20",
           "end": "17:15",
-          "location": "南校园-第一教学楼-1304(164座)"
+          "location": "南校园-第一教学楼-1304(164座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c16",
@@ -288,7 +393,14 @@
           ],
           "start": "14:20",
           "end": "16:00",
-          "location": "校外"
+          "location": "校外",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c17",
@@ -315,7 +427,14 @@
           ],
           "start": "14:20",
           "end": "16:00",
-          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c18",
@@ -334,7 +453,14 @@
           ],
           "start": "16:30",
           "end": "18:10",
-          "location": "南校园-第五教学楼(逸夫楼)-逸305(71座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸305(71座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c19",
@@ -352,7 +478,14 @@
           ],
           "start": "16:30",
           "end": "18:10",
-          "location": "南校园-第五教学楼(逸夫楼)-逸305(71座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸305(71座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c20",
@@ -370,7 +503,14 @@
           ],
           "start": "16:30",
           "end": "18:10",
-          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c21",
@@ -388,7 +528,14 @@
           ],
           "start": "16:30",
           "end": "18:10",
-          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)"
+          "location": "南校园-第五教学楼(逸夫楼)-逸303(95座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c22",
@@ -401,7 +548,14 @@
           ],
           "start": "16:30",
           "end": "18:10",
-          "location": "校外"
+          "location": "校外",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "required"
+            }
+          ]
         },
         {
           "id": "c23",
@@ -422,7 +576,14 @@
           ],
           "start": "19:00",
           "end": "21:35",
-          "location": "南校园-第二教学楼-2116(90座)"
+          "location": "南校园-第二教学楼-2116(90座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c24",
@@ -438,7 +599,14 @@
           ],
           "start": "19:00",
           "end": "21:35",
-          "location": "南校园-第二教学楼-2116(90座)"
+          "location": "南校园-第二教学楼-2116(90座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         },
         {
           "id": "c25",
@@ -465,7 +633,14 @@
           ],
           "start": "19:00",
           "end": "21:35",
-          "location": "南校园-第二教学楼-2113(66座)"
+          "location": "南校园-第二教学楼-2113(66座)",
+          "audiences": [
+            {
+              "major": "physics",
+              "group": "all",
+              "requirement": "elective"
+            }
+          ]
         }
       ],
       "overrides": [],

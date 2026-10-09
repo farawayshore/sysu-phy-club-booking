@@ -2,11 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
+import {fileURLToPath} from 'node:url';
 import {webcrypto} from 'node:crypto';
 import {build} from 'esbuild';
 import {today,addDays,bookingEnd} from '../app/schedule.ts';
 const source=(await readFile(new URL('../offline/entry.tsx',import.meta.url),'utf8')).replace(/^import .*react-dom\/client.*\n/m,'').replace(/^import Home.*\n/m,'').replace(/^createRoot.*\n/m,'');
-const compiled=await build({stdin:{contents:source,resolveDir:new URL('../offline/',import.meta.url).pathname,loader:'tsx'},bundle:true,write:false,format:'iife',platform:'browser'});
+const compiled=await build({stdin:{contents:source,resolveDir:fileURLToPath(new URL('../offline/',import.meta.url)),loader:'tsx'},bundle:true,write:false,format:'iife',platform:'browser'});
 function context(store=new Map(),blocked=false){
  const window={fetch:()=>{throw new Error('Unexpected network call')},addEventListener(){},dispatchEvent(){}};
  const localStorage={getItem:k=>store.get(k)||null,setItem:(k,v)=>{if(blocked)throw new Error('Quota exceeded');store.set(k,v)}};

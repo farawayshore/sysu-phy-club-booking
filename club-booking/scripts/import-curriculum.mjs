@@ -12,7 +12,7 @@ const compiled=await build({absWorkingDir:root,entryPoints:['app/curriculum.ts']
 const {validateCurriculum}=await import('data:text/javascript;base64,'+Buffer.from(compiled.outputFiles[0].text).toString('base64'));
 const input=validateCurriculum(JSON.parse(await readFile(resolve(root,'data/timetables.json'),'utf8')));
 // Persist only the timetable schema, never arbitrary source metadata.
-const document={version:1,timetables:input.timetables.map(t=>({id:t.id,label:t.label,term:t.term,...(t.grade?{grade:t.grade}:{}),week1Monday:t.week1Monday,...(t.note?{note:t.note}:{}),courses:t.courses.map(c=>({id:c.id,name:c.name,weekday:c.weekday,weeks:c.weeks,start:c.start,end:c.end,location:c.location,...(c.category?{category:c.category}:{}),...(c.audiences?{audiences:c.audiences.map(a=>({major:a.major,group:a.group,requirement:a.requirement}))}:{})})),overrides:t.overrides.map(o=>({date:o.date,sourceDate:o.sourceDate}))}))};
+const document={version:1,timetables:input.timetables.map(t=>({id:t.id,label:t.label,term:t.term,...(t.grade?{grade:t.grade}:{}),week1Monday:t.week1Monday,...(t.note?{note:t.note}:{}),courses:t.courses.map(c=>({id:c.id,name:c.name,weekday:c.weekday,weeks:c.weeks,start:c.start,end:c.end,location:c.location,...(c.category?{category:c.category}:{}),...(c.hiddenReason?{hiddenReason:c.hiddenReason}:{}),...(c.audiences?{audiences:c.audiences.map(a=>({major:a.major,group:a.group,requirement:a.requirement}))}:{})})),overrides:t.overrides.map(o=>({date:o.date,sourceDate:o.sourceDate}))}))};
 const data=JSON.stringify(document),quote=value=>"'"+value.replaceAll("'","''")+"'";
 const timestamp=new Date().toISOString();
 const visibility=process.argv.includes('--public')?'public':'private';

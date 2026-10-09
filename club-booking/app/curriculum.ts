@@ -33,13 +33,14 @@ export function courseTone(c:CourseRule,t:Timetable,filter?:CourseFilter):'requi
  return 'unknown';
 }
 export function matchedCourseTypes(c:CourseRule,t:Timetable,filter?:CourseFilter):CourseType[]{
+ if(c.hiddenReason==='public-elective')return [];
  const f=filter??defaultCourseFilter(t);
  // An unclassified legacy course remains visible as pending review, never inferred as common or required.
  if(!c.audiences?.length)return f.types.includes(c.category==='activity'?'activity':'unknown')?[c.category==='activity'?'activity':'unknown']:[];
  const types=matchedAudiences(c,t,f).map(a=>c.category==='activity'?'activity' as const:a.requirement);
  return [...new Set(types)].filter(type=>f.types.includes(type));
 }
-export type CourseRule={id:string;name:string;weekday:number;weeks:number[];start:string;end:string;location:string;category?:'course'|'activity';audiences?:CourseAudience[]};
+export type CourseRule={id:string;name:string;weekday:number;weeks:number[];start:string;end:string;location:string;category?:'course'|'activity';hiddenReason?:'public-elective';audiences?:CourseAudience[]};
 export type Timetable={id:string;label:string;term:string;week1Monday:string;note?:string;grade?:number;courses:CourseRule[];overrides:{date:string;sourceDate:string|null}[]};
 export type Curriculum={version:number;timetables:Timetable[]};
 export type CalendarEntry=Booking & {kind?:'course';gradeId?:string;term?:string;week?:number;confirmationKey?:string;courseTypes?:CourseType[];courseTone?:ReturnType<typeof courseTone>;audienceLabel?:string};
@@ -57,6 +58,7 @@ export function validateCurriculum(value:unknown):Curriculum{
   if(!Array.isArray(t.courses)||t.courses.length>300||!Array.isArray(t.overrides)||t.overrides.length>366)throw new Error('课程或调课记录格式无效');
   const courseIds=new Set<string>();for(const c of t.courses){
    if(!c||typeof c.id!=='string'||!c.id||c.id.length>80||courseIds.has(c.id)||typeof c.name!=='string'||!c.name.trim()||c.name.length>80||typeof c.location!=='string'||c.location.length>120)throw new Error(`${t.label}：课程名称、地点或标识无效`);courseIds.add(c.id);
+   if(c.hiddenReason!==undefined&&c.hiddenReason!=='public-elective')throw new Error('隐藏原因须为公共选修课');
    if(c.category!==undefined&&!['course','activity'].includes(c.category))throw new Error('条目类型须为课程或班级活动');
    if(c.audiences!==undefined&&(!Array.isArray(c.audiences)||c.audiences.length>20||c.audiences.some(a=>!a||!['all',...Object.keys(MAJORS)].includes(a.major)||!['all',...availableGroups(t)].includes(a.group)||!['required','elective','unknown'].includes(a.requirement)||(tableGrade(t)===1&&a.major!=='all'))))throw new Error(`${c.name}：专业、班型或课程性质无效`);
    if(!Number.isInteger(c.weekday)||c.weekday<1||c.weekday>7||!Array.isArray(c.weeks)||!c.weeks.length||c.weeks.length>53||c.weeks.some(w=>!Number.isInteger(w)||w<1||w>53)||!validTime(c.start)||!validTime(c.end)||c.start>=c.end)throw new Error(`${c.name}：请检查星期、周次和起止时间`);
@@ -85,5 +87,15 @@ export function courseEntries(data:Curriculum,selected:string[],dates:string[],f
  }return entries;
 }
 export function findCourseConflicts(data:Curriculum,selected:string[],booking:Pick<Booking,'date'|'start'|'end'>,filters:CourseFilters={}){return courseEntries(data,selected,[booking.date],filters).filter(c=>overlaps(c,booking))}
-export function curriculumForBrowser(fallback:Curriculum){const raw=localStorage.getItem(CURRICULUM_KEY);if(!raw)return fallback;const saved=validateCurriculum(JSON.parse(raw));return {...saved,timetables:[...saved.timetables,...fallback.timetables.filter(t=>!t.courses.length&&!saved.timetables.some(s=>s.id===t.id||tableGrade(s)===tableGrade(t))).slice(0,20-saved.timetables.length)]}}
+export function curriculumForBrowser(fallback:Curriculum){
+ const raw=localStorage.getItem(CURRICULUM_KEY);if(!raw)return fallback;
+ const saved=validateCurriculum(JSON.parse(raw));
+ // Fill only missing labels on recognized legacy entries; preserve user edits, times and explicit classifications.
+ const tables=saved.timetables.map(t=>{const source=fallback.timetables.find(x=>x.id===t.id&&x.term===t.term);return {...t,courses:t.courses.map(c=>{
+  if(c.audiences!==undefined||c.hiddenReason!==undefined||c.category==='activity')return c;
+  const known=source?.courses.find(x=>x.id===c.id&&x.name===c.name);
+  return known?{...c,...(known.audiences?{audiences:known.audiences}:{}),...(known.hiddenReason?{hiddenReason:known.hiddenReason}:{})}:c;
+ })}});
+ return {...saved,timetables:[...tables,...fallback.timetables.filter(t=>!t.courses.length&&!tables.some(s=>s.id===t.id||tableGrade(s)===tableGrade(t))).slice(0,20-tables.length)]};
+}
 export function dateRange(start:string,end:string){const dates:string[]=[];for(let date=start;date<=end;date=addDays(date,1))dates.push(date);return dates}

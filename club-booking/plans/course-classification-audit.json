@@ -1,0 +1,449 @@
+{
+  "checkedAt": "2026-10-09",
+  "scope": "现有25条规则；物理学类仅用于大一；未提供光信/理论物理国际班方案",
+  "sources": [
+    {
+      "id": "physics",
+      "path": "../peiyangfangan/24级物理学专业培养方案-正文.txt",
+      "sha256": "28842ea77d837163bd3d00a07f2ccdb705c0e14728956527beacf6ca10a22b39",
+      "entries": 88
+    },
+    {
+      "id": "elite",
+      "path": "resources/program-plans/2024-物理学拔尖计划2.0-培养方案正文.txt",
+      "sha256": "8e335b42fd16564b00a16c0143fb7edab7323c788fc06060ccf3df74979da7c7",
+      "entries": 116
+    },
+    {
+      "id": "first-year",
+      "path": "../peiyangfangan/24级物理学类培养方案-正文.txt",
+      "sha256": "7973e2db9c2fe8a593c95c31eeb13b94a5be2f4aa97c8ff4217fb2e1bffe3e0e",
+      "entries": 30
+    }
+  ],
+  "courses": [
+    {
+      "name": "高等量子力学",
+      "matchedName": "高等量子力学",
+      "classification": "专业选修课",
+      "ruleIds": [
+        "c01",
+        "c07",
+        "c20",
+        "c21"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PHY376",
+          "name": "高等量子力学",
+          "section": "专业选修课",
+          "line": 813
+        },
+        {
+          "source": "elite",
+          "code": "PHY376",
+          "name": "高等量子力学",
+          "section": "专业选修课",
+          "line": 879
+        },
+        {
+          "source": "elite",
+          "code": "PHY376",
+          "name": "高等量子力学",
+          "section": "荣誉课程",
+          "line": 1098
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "电子技术实验",
+      "matchedName": "电子技术实验",
+      "classification": "专业必修课",
+      "ruleIds": [
+        "c02",
+        "c03"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PHY232",
+          "name": "电子技术实验",
+          "section": "专业必修课",
+          "line": 351
+        },
+        {
+          "source": "elite",
+          "code": "PHY232",
+          "name": "电子技术实验",
+          "section": "专业必修课",
+          "line": 344
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "热力学与统计物理",
+      "matchedName": "热力学与统计物理",
+      "classification": "专业必修课",
+      "ruleIds": [
+        "c04",
+        "c11"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PHY303",
+          "name": "热力学与统计物理",
+          "section": "专业必修课",
+          "line": 400
+        },
+        {
+          "source": "elite",
+          "code": "PHY303",
+          "name": "热力学与统计物理",
+          "section": "专业必修课",
+          "line": 393
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "物理学中的群论",
+      "matchedName": "物理学中的群论",
+      "classification": "专业选修课",
+      "ruleIds": [
+        "c05",
+        "c06",
+        "c12",
+        "c13",
+        "c14"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PHY341",
+          "name": "物理学中的群论",
+          "section": "专业选修课",
+          "line": 805
+        },
+        {
+          "source": "elite",
+          "code": "PHY341",
+          "name": "物理学中的群论",
+          "section": "专业选修课",
+          "line": 871
+        },
+        {
+          "source": "elite",
+          "code": "PHY341",
+          "name": "物理学中的群论",
+          "section": "荣誉课程",
+          "line": 1090
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "固体物理",
+      "matchedName": "固体物理",
+      "classification": "专业必修课",
+      "ruleIds": [
+        "c08",
+        "c09",
+        "c18",
+        "c19"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PHY321",
+          "name": "固体物理",
+          "section": "专业必修课",
+          "line": 408
+        },
+        {
+          "source": "elite",
+          "code": "PHY321",
+          "name": "固体物理",
+          "section": "专业必修课",
+          "line": 401
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "体育-体能",
+      "matchedName": "体育",
+      "classification": "公共必修课",
+      "ruleIds": [
+        "c10"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PE101",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 118
+        },
+        {
+          "source": "physics",
+          "code": "PE102",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 190
+        },
+        {
+          "source": "physics",
+          "code": "PE201",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 214
+        },
+        {
+          "source": "physics",
+          "code": "PE202",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 238
+        },
+        {
+          "source": "physics",
+          "code": "PE305",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 246
+        },
+        {
+          "source": "physics",
+          "code": "PE302",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 254
+        },
+        {
+          "source": "elite",
+          "code": "PE101",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 119
+        },
+        {
+          "source": "elite",
+          "code": "PE102",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 191
+        },
+        {
+          "source": "elite",
+          "code": "PE201",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 215
+        },
+        {
+          "source": "elite",
+          "code": "PE202",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 239
+        },
+        {
+          "source": "elite",
+          "code": "PE305",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 247
+        },
+        {
+          "source": "elite",
+          "code": "PE302",
+          "name": "体育",
+          "section": "公共必修课",
+          "line": 255
+        }
+      ],
+      "hidden": false,
+      "aliasNote": "原始个人课表明确标注本(公必)体育-体能；按体育课程类别匹配，不推断具体体育课程编码"
+    },
+    {
+      "name": "形势与政策",
+      "matchedName": "形势与政策",
+      "classification": "公共必修课",
+      "ruleIds": [
+        "c15"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "MAR114",
+          "name": "形势与政策",
+          "section": "公共必修课",
+          "line": 142
+        },
+        {
+          "source": "elite",
+          "code": "MAR114",
+          "name": "形势与政策",
+          "section": "公共必修课",
+          "line": 143
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "国家安全教育",
+      "matchedName": "国家安全教育",
+      "classification": "公共必修课",
+      "ruleIds": [
+        "c16"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PUB199",
+          "name": "国家安全教育",
+          "section": "公共必修课",
+          "line": 158
+        },
+        {
+          "source": "elite",
+          "code": "PUB199",
+          "name": "国家安全教育",
+          "section": "公共必修课",
+          "line": 159
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "数字电子技术",
+      "matchedName": "数字电子技术",
+      "classification": "专业必修课",
+      "ruleIds": [
+        "c17"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PHY365",
+          "name": "数字电子技术",
+          "section": "专业必修课",
+          "line": 359
+        },
+        {
+          "source": "elite",
+          "code": "PHY365",
+          "name": "数字电子技术",
+          "section": "专业必修课",
+          "line": 352
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "劳动教育",
+      "matchedName": "劳动教育",
+      "classification": "公共必修课",
+      "ruleIds": [
+        "c22"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PUB178",
+          "name": "劳动教育",
+          "section": "公共必修课",
+          "line": 150
+        },
+        {
+          "source": "elite",
+          "code": "PUB178",
+          "name": "劳动教育",
+          "section": "公共必修课",
+          "line": 151
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "高能物理导论",
+      "matchedName": "高能物理导论",
+      "classification": "专业选修课",
+      "ruleIds": [
+        "c23",
+        "c24"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PHY5220",
+          "name": "高能物理导论",
+          "section": "专业选修课",
+          "line": 715
+        },
+        {
+          "source": "elite",
+          "code": "PHY5220",
+          "name": "高能物理导论",
+          "section": "专业选修课",
+          "line": 781
+        },
+        {
+          "source": "elite",
+          "code": "PHY5220",
+          "name": "高能物理导论",
+          "section": "荣誉课程",
+          "line": 1024
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    },
+    {
+      "name": "拓扑物理学",
+      "matchedName": "拓扑物理学",
+      "classification": "专业选修课",
+      "ruleIds": [
+        "c25"
+      ],
+      "evidence": [
+        {
+          "source": "physics",
+          "code": "PHY5299",
+          "name": "拓扑物理学",
+          "section": "专业选修课",
+          "line": 731
+        },
+        {
+          "source": "elite",
+          "code": "PHY5299",
+          "name": "拓扑物理学",
+          "section": "专业选修课",
+          "line": 797
+        },
+        {
+          "source": "elite",
+          "code": "PHY5299",
+          "name": "拓扑物理学",
+          "section": "荣誉课程",
+          "line": 1040
+        }
+      ],
+      "hidden": false,
+      "aliasNote": null
+    }
+  ]
+}

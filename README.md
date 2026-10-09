@@ -16,6 +16,6 @@
 生成本地单文件 HTML：`node scripts/export-html.mjs`。
 生成 Pages 成品：`npm run build:pages`，输出在 `club-booking/outputs/github-pages/`。
 
-源码与线上成品分别更新：本轮只同步源码和资料，根网页仍使用已上线版本。发布新功能时先联调 uniCloud 后端，再把上述 Pages 成品复制到仓库根目录提交，Actions 会继续发布到同一网址。培养方案不上传云数据库，不作为 Pages 部署产物。
+源码与线上成品分别更新：本轮已同步专业/班型筛选、课程分类配色及只读课表页面；后端与数据库已配套更新。发布新功能时先联调 uniCloud 后端，再把上述 Pages 成品复制到仓库根目录提交，Actions 会继续发布到同一网址。培养方案不上传云数据库，不作为 Pages 部署产物。
 
 原始培养方案网页可能带页面账号信息，保留本地，不直接提交。

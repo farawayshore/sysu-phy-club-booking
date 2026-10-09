@@ -2,8 +2,10 @@ import { createRoot } from 'react-dom/client';
 import Home from '../app/page';
 import { today, bookingEnd, validate, overlaps, cancellationId, type Booking } from '../app/schedule';
 
-import initialCurriculum from '../data/timetables.json';
-import {curriculumForBrowser,validCourseFilters,findCourseConflicts,CURRICULUM_KEY} from '../app/curriculum';
+import curriculumSource from '../data/timetables.json';
+import {validateCurriculum,curriculumForBrowser,validCourseFilters,findCourseConflicts,CURRICULUM_KEY} from '../app/curriculum';
+
+const initialCurriculum=validateCurriculum(curriculumSource);
 
 // The single-file export uses browser-local persistence; hosted code keeps its D1 API.
 const KEY = 'gongshi-club-booking-local-v1';
