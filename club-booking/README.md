@@ -1,5 +1,24 @@
 # 物院社团时间预约
 
+## 当前部署：GitHub Pages + uniCloud 支付宝云（2026-10-09）
+
+本节取代下方历史部署说明。保留原网址 https://farawayshore.github.io/sysu-phy-club-booking/ 。
+
+- 后端空间 `sysu-club-booking-alipay`（`env-00jy6xwsp3aa`），API `https://env-00jy6xwsp3aa.dev-hz.cloudbasefunction.cn/booking-api`。
+- 数据库 `club_booking_state/current` 保存预约及公开课表，保留原预约，录入当前57条排课规则；客户端数据库禁止直接读写，公开课表接口只读。管理员仍通过源文件及受管理账号保护的数据库控制台维护，尚无网站账号系统。
+- 此次包含大二物理及拔尖班、大三物理/光信课表、课程分类、体育合并、课程宽度修复、两个月预约及完整手机周视图。
+- 沿用 uni-push 2.0，变化时通知其他页面读取；没有定时云端轮询。首次读取、推送和手动刷新更新；返回前台/重连补查有60秒去重。写入成功直接返回最新快照，提交端无需另发GET；写入期间收到的推送按版本合并。
+- `node scripts/build-unicloud.mjs` 默认生成 `outputs/unicloud-deploy/uniCloud-alipay/cloudfunctions/booking-api`，通过 HBuilderX CLI `--provider alipay` 上传。不要再次初始化已有数据库。
+- `node scripts/export-pages.mjs` 默认使用支付宝云API。`node scripts/export-html.mjs` 更新本地HTML；本地预约仅保存在浏览器，存储key保持兼容。
+- 免费空间当前到期2026-11-09，未开启按量或付费。默认域名仍有平台测试用途和限流限制。
+- CloudBase尝试已停止，未作为正式数据源；历史代码/备份保留本地。发布证据与验证记录见 `plans/alipay-migration.md`。
+
+---
+
+以下为历史阶段记录，若与上述冲突以当前部署为准。
+
+> 本地待同步（2026-10-09）：体育已统一合并显示并隐藏地点；课程宽度按各重叠时段计算，独占时段铺满当天一列。现已另加入大三光信课表，按专业独立排课，共享课程去重；量子光学按用户确认隐藏。新增大二物理学第6–16周截图课表，合并第二份大三物理学课表；人工智能导论为必修，现代物理导论仅随拔尖班开关显示。此次未更新云端和GitHub。详见 plans/timetable-import-20261009.json。
+
 ## 专业与班型课表筛选
 
 2026-10-08 本地新增年级→专业→特殊班型叠加与必修/选修过滤。大一不分专业；大二有物理学/光信与拔尖班，大三、大四另可叠加理论物理国际班。特殊班型默认不勾选，无“普通班”开关。现有 25 条排课已按提供的 2024 级方案核对：8 门必修、4 门专业选修；经全部方案核对仍未提及的公共选修不显示，本次没有此类课程。培养方案原件放 `resources/program-plans/`，不参与网页、云函数打包或数据库上传。详见 `plans/curriculum-classification.md`。2026-10-09 前后端同步发布，部署验证见 plans/oct09-release.md。
@@ -19,7 +38,7 @@
 - 免费空间当前到期日为2026-11-08，需要主动续期。默认域名官方定位为测试域名，长期使用应按平台要求绑定备案域名。没有开启付费套餐或按量计费。
 - 迁移详情见 plans/unicloud-connection.md；实时推送实现、限额及验证见 plans/realtime-updates.md。
 
-独立项目目录：`~/Projects/club booking project/club-booking`。旧路径 `~/Projects/club-booking` 保留为兼容符号链接。
+独立项目目录：`/Users/grassman_number/Projects/club booking project/club-booking`。旧路径 `/Users/grassman_number/Projects/club-booking` 保留为兼容符号链接。
 
 React 前端部署到 GitHub Pages，uniCloud 云函数提供 API，云数据库保存预约和课表，附可直接打开的本地单文件 HTML。历史 Sites 配置仅保留归档，不参与当前构建或发布。
 
@@ -29,7 +48,7 @@ React 前端部署到 GitHub Pages，uniCloud 云函数提供 API，云数据库
 
 直接打开 `outputs/物院社团时间预约.html`，无需启动服务。本地版预约及历史课表缓存保存在当前浏览器，与线上数据库不自动同步。网页和本地页均为课表只读；管理员修改 data/timetables.json 后重新导出，正式课表须经已登录的 uniCloud 控制台更新。当前尚未实现网站内的管理员登录。
 
-迁移前的目录 `~/AI/ai_works/club-booking` 现在是指向本项目的兼容链接。已有本地预约或课表时，继续用原 HTML 地址打开；浏览器可能按 `file://` 地址分别保存数据，新地址不会自动继承旧地址的数据。迁移没有删除或修改浏览器存储。
+迁移前的目录 `/Users/grassman_number/AI/ai_works/club-booking` 现在是指向本项目的兼容链接。已有本地预约或课表时，继续用原 HTML 地址打开；浏览器可能按 `file://` 地址分别保存数据，新地址不会自动继承旧地址的数据。迁移没有删除或修改浏览器存储。
 
 ## 开发和验证
 

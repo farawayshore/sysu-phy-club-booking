@@ -13,7 +13,7 @@
 
 ## 发布与维护
 
-- 默认 `node scripts/build-unicloud.mjs`、`node scripts/export-pages.mjs` 开启推送。`BOOKING_PUSH_ENABLED=0` 仅用于明确回滚，前后端同时回滚时恢复 2 分钟轮询。
+- 默认 `node scripts/build-unicloud.mjs`、`node scripts/export-pages.mjs` 开启推送。`BOOKING_PUSH_ENABLED=0` 仅用于明确回滚，关闭推送后仅手动/返回页面刷新，不恢复定时轮询。
 - 云函数 package.json 配置 extensions.uni-cloud-push。通过已有 HBuilderX CLI 上传 booking-api；无需管理员 Secret 写入前端。
 - Pages 发布输出 index.html、.nojekyll 和两个许可文件，不上传本地课表、DCloud 登录配置或原始项目目录。
 - 当前广播免费限额每天 100 次、每分钟 5 次；云函数/数据库仍使用原空间额度。没有启用付费套餐。

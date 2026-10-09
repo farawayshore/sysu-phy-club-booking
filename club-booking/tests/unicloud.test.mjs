@@ -44,3 +44,14 @@ test('cloud handler mock honors major filters without accessing the cloud',async
  payload.courseFilters.g3.majors=['optical'];assert.equal((await h(event('POST',payload))).statusCode,201);
  assert.equal(data.bookings.length,1);
 });
+
+test('committed mutation returns the full snapshot without a second database read',async()=>{
+ let reads=0,revision=9,data=structuredClone(state);
+ const h=createHandler({async read(){reads++;return {revision,state:structuredClone(data)}},async compareAndSet(r,next){if(r!==revision)return false;data=structuredClone(next);revision++;return true}});
+ const created=json(await h(event('POST',b)));
+ assert.equal(reads,1);assert.equal(created.snapshot.revision,10);assert.equal(created.snapshot.bookings[0].id,created.id);assert.deepEqual(created.snapshot.curriculum,state.curriculum);
+ const deleted=json(await h(event('DELETE',{id:created.id,confirmed:true})));
+ assert.equal(reads,2);assert.equal(deleted.snapshot.revision,11);assert.deepEqual(deleted.snapshot.bookings,[]);
+ const repeated=json(await h(event('DELETE',{id:created.id,confirmed:true})));
+ assert.equal(repeated.snapshot.revision,11);assert.deepEqual(repeated.snapshot.bookings,[]);
+});

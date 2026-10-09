@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {build} from 'esbuild';
 const built=await build({entryPoints:['app/curriculum.ts'],bundle:true,write:false,format:'esm',platform:'node'});
 const {validateCurriculum,parseWeeks,courseEntries,findCourseConflicts,defaultCourseFilter,availableGroups,curriculumForBrowser,CURRICULUM_KEY}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
-const fixture=JSON.parse(await readFile(new URL('../data/timetables.json',import.meta.url),'utf8'));
+const fixture=JSON.parse(await readFile(new URL('./fixtures/timetables-before-second-import.json',import.meta.url),'utf8'));
 const id=fixture.timetables[0].id;
 const entries=(date,data=fixture,ids=[id])=>courseEntries(data,ids,[date]);
 test('imported grade 3 has the 25 source rules and correct teaching-week dates',()=>{

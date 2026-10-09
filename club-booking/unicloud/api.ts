@@ -3,31 +3,32 @@ import { today, bookingEnd, validate, cancellationId, overlaps, type Booking } f
 import { validateCurriculum, validCourseFilters,findCourseConflicts, type Curriculum } from '../app/curriculum';
 
 export type State = { bookings: Booking[]; curriculum: Curriculum };
+function publicSnapshot(state:State,revision:number){const t=today();return {revision,today:t,bookings:state.bookings.filter(b=>b.date>=t&&b.date<=bookingEnd(t)).sort((a,b)=>a.date.localeCompare(b.date)||a.start.localeCompare(b.start)),curriculum:state.curriculum}}
 export type Store = { read(): Promise<{ revision: number; state: State }>; compareAndSet(revision: number, state: State): Promise<boolean> };
 const ORIGIN = 'https://farawayshore.github.io';
 type Event = { path?: string; httpMethod?: string; headers?: Record<string,string>; body?: string; isBase64Encoded?: boolean };
-export function createHandler(store: Store, notify?: (revision:number)=>Promise<void>) {
+export function createHandler(store: Store, notify?: (revision:number)=>Promise<void>, origins:readonly string[]=[ORIGIN]) {
  return async (event: Event = {}) => {
   const headers: Record<string,string> = { 'Content-Type':'application/json; charset=utf-8', 'Cache-Control':'no-store', Vary:'Origin' };
   const incoming = Object.fromEntries(Object.entries(event.headers || {}).map(([k,v])=>[k.toLowerCase(),v]));
-  if(incoming.origin===ORIGIN)headers['Access-Control-Allow-Origin']=ORIGIN;
+  const allowedOrigin=origins.includes(incoming.origin);
+  if(allowedOrigin)headers['Access-Control-Allow-Origin']=incoming.origin;
   const reply=(data:unknown,status=200)=>({mpserverlessComposedResponse:true,isBase64Encoded:false,statusCode:status,headers,body:JSON.stringify(data)});
   const method=event.httpMethod;
   // Cloud functions may also be invoked directly through the client SDK: reject that path.
   if(!method || !event.path)return reply({error:'请通过网站接口访问'},403);
-  if(incoming.origin && incoming.origin!==ORIGIN)return reply({error:'请求来源无效'},403);
+  if(incoming.origin && !allowedOrigin)return reply({error:'请求来源无效'},403);
   const path=event.path.replace(/\/$/,'');
   if(!['/api/bookings','/api/curriculum'].includes(path))return reply({error:'接口不存在'},404);
   if(method==='OPTIONS'){headers['Access-Control-Allow-Methods']='GET, POST, DELETE';headers['Access-Control-Allow-Headers']='Content-Type';return reply({},200)}
   if(path==='/api/curriculum' && method!=='GET')return reply({error:'不支持的操作'},405);
   if(!['GET','POST','DELETE'].includes(method))return reply({error:'不支持的操作'},405);
-  if(method!=='GET' && incoming.origin!==ORIGIN)return reply({error:'请求来源无效'},403);
+  if(method!=='GET' && !allowedOrigin)return reply({error:'请求来源无效'},403);
   try {
    if(method==='GET'){
     const {state,revision}=await store.read();
     if(path==='/api/curriculum')return reply(state.curriculum);
-    const t=today();
-    return reply({revision,today:t,bookings:state.bookings.filter(b=>b.date>=t&&b.date<=bookingEnd(t)).sort((a,b)=>a.date.localeCompare(b.date)||a.start.localeCompare(b.start)),curriculum:state.curriculum});
+    return reply(publicSnapshot(state,revision));
    }
    const raw=event.isBase64Encoded?Buffer.from(event.body||'','base64').toString('utf8'):event.body||'';
    if(Buffer.byteLength(raw)>8192)return reply({error:'请求内容过长'},413);
@@ -38,7 +39,7 @@ export function createHandler(store: Store, notify?: (revision:number)=>Promise<
    for(let attempt=0;attempt<5;attempt++){
     const {revision,state}=await store.read();
     if(method==='DELETE'){
-     if(!state.bookings.some(b=>b.id===id))return reply({id,cancelled:true});
+     if(!state.bookings.some(b=>b.id===id))return reply({id,cancelled:true,snapshot:publicSnapshot(state,revision)});
      state.bookings=state.bookings.filter(b=>b.id!==id);
     }else{
      const selected=body.selectedGrades??[];
@@ -58,7 +59,7 @@ export function createHandler(store: Store, notify?: (revision:number)=>Promise<
     if(await store.compareAndSet(revision,state)){
      let warning:string|undefined;
      if(notify){try{await notify(revision+1)}catch{warning='数据已保存，但更新推送未送出；其他页面可手动刷新。'}}
-     return reply({id,...(method==='DELETE'?{cancelled:true}:{}),revision:revision+1,warning},method==='DELETE'?200:201);
+     return reply({id,...(method==='DELETE'?{cancelled:true}:{}),revision:revision+1,warning,snapshot:publicSnapshot(state,revision+1)},method==='DELETE'?200:201);
     }
    }
    return reply({error:'预约正在更新，请刷新后重试'},503);

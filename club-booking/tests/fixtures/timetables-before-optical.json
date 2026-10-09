@@ -6,7 +6,7 @@
       "label": "大三",
       "term": "2026学年度第一学期",
       "week1Monday": "2026-09-07",
-      "note": "两份物理学及一份光信个人课表合并，不代表全年级完整课表；两专业排课独立，相同课程、周次、时段和教室共用条目。量子光学按用户确认作为公共选修隐藏；国际班专属排课待补。",
+      "note": "两份物理学专业个人课表合并，不代表全年级完整课表；同课程同时间同教室去重，不同教室保留。仅物理学排课，光信与国际班专属排课待补。",
       "courses": [
         {
           "id": "c01",
@@ -208,11 +208,6 @@
               "major": "physics",
               "group": "all",
               "requirement": "required"
-            },
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
             }
           ]
         },
@@ -236,11 +231,6 @@
           "audiences": [
             {
               "major": "physics",
-              "group": "all",
-              "requirement": "required"
-            },
-            {
-              "major": "optical",
               "group": "all",
               "requirement": "required"
             }
@@ -389,11 +379,6 @@
               "major": "physics",
               "group": "all",
               "requirement": "required"
-            },
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
             }
           ]
         },
@@ -412,11 +397,6 @@
           "audiences": [
             {
               "major": "physics",
-              "group": "all",
-              "requirement": "required"
-            },
-            {
-              "major": "optical",
               "group": "all",
               "requirement": "required"
             }
@@ -479,11 +459,6 @@
               "major": "physics",
               "group": "all",
               "requirement": "required"
-            },
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
             }
           ]
         },
@@ -507,11 +482,6 @@
           "audiences": [
             {
               "major": "physics",
-              "group": "all",
-              "requirement": "required"
-            },
-            {
-              "major": "optical",
               "group": "all",
               "requirement": "required"
             }
@@ -584,11 +554,6 @@
               "major": "physics",
               "group": "all",
               "requirement": "required"
-            },
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
             }
           ]
         },
@@ -617,11 +582,6 @@
               "major": "physics",
               "group": "all",
               "requirement": "elective"
-            },
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "elective"
             }
           ]
         },
@@ -643,11 +603,6 @@
           "audiences": [
             {
               "major": "physics",
-              "group": "all",
-              "requirement": "elective"
-            },
-            {
-              "major": "optical",
               "group": "all",
               "requirement": "elective"
             }
@@ -706,11 +661,6 @@
           "audiences": [
             {
               "major": "physics",
-              "group": "all",
-              "requirement": "elective"
-            },
-            {
-              "major": "optical",
               "group": "all",
               "requirement": "elective"
             }
@@ -907,11 +857,6 @@
               "major": "physics",
               "group": "all",
               "requirement": "elective"
-            },
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "elective"
             }
           ],
           "id": "g3-second-21"
@@ -937,209 +882,9 @@
               "major": "physics",
               "group": "all",
               "requirement": "elective"
-            },
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "elective"
             }
           ],
           "id": "g3-second-22"
-        },
-        {
-          "name": "高等光学导论",
-          "weekday": 5,
-          "weeks": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17
-          ],
-          "start": "08:00",
-          "end": "09:40",
-          "location": "南校园-第二教学楼-2115(87座)",
-          "id": "g3-optical-01",
-          "audiences": [
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
-            }
-          ]
-        },
-        {
-          "name": "高等光学导论",
-          "weekday": 3,
-          "weeks": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17
-          ],
-          "start": "10:10",
-          "end": "11:50",
-          "location": "南校园-第二教学楼-2115(87座)",
-          "id": "g3-optical-02",
-          "audiences": [
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
-            }
-          ]
-        },
-        {
-          "name": "数字电子技术",
-          "weekday": 5,
-          "weeks": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17
-          ],
-          "start": "10:10",
-          "end": "11:50",
-          "location": "南校园-第五教学楼(逸夫楼)-逸406(72座)",
-          "id": "g3-optical-03",
-          "audiences": [
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
-            }
-          ]
-        },
-        {
-          "name": "体育-陆上划船机",
-          "weekday": 1,
-          "weeks": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8
-          ],
-          "start": "14:20",
-          "end": "16:00",
-          "location": "",
-          "id": "g3-optical-04",
-          "audiences": [
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
-            }
-          ]
-        },
-        {
-          "name": "电子技术实验",
-          "weekday": 3,
-          "weeks": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17
-          ],
-          "start": "14:20",
-          "end": "18:10",
-          "location": "",
-          "id": "g3-optical-05",
-          "audiences": [
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "required"
-            }
-          ]
-        },
-        {
-          "name": "量子光学",
-          "weekday": 3,
-          "weeks": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17
-          ],
-          "start": "19:00",
-          "end": "21:35",
-          "location": "南校园-第五教学楼(逸夫楼)-逸208(101座)",
-          "id": "g3-optical-06",
-          "audiences": [
-            {
-              "major": "optical",
-              "group": "all",
-              "requirement": "elective"
-            }
-          ],
-          "hiddenReason": "public-elective"
         }
       ],
       "overrides": [],

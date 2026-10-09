@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const pushEnabled=process.env.BOOKING_PUSH_ENABLED!=='0';
-const apiUrl = new URL(process.env.BOOKING_API_BASE || 'https://fc-mp-a5e7c91d-8504-4701-b37b-49e7c0c4158f.next.bspapp.com/booking-api');
+const apiUrl = new URL(process.env.BOOKING_API_BASE || 'https://env-00jy6xwsp3aa.dev-hz.cloudbasefunction.cn/booking-api');
 if(apiUrl.username || apiUrl.password || apiUrl.search || apiUrl.hash)throw new Error('Invalid API base');
 const apiBase = apiUrl.origin + apiUrl.pathname.replace(/\/$/,'');
 if (!apiBase.startsWith('https://')) throw new Error('Online API must use HTTPS');
@@ -19,5 +19,8 @@ const directory=resolve(root,'outputs/github-pages');
 await mkdir(directory,{recursive:true});
 await writeFile(resolve(directory,'index.html'),html);
 await writeFile(resolve(directory,'.nojekyll'),'');
-if(pushEnabled){await copyFile(resolve(root,'online/vendor/gtpush-min.js.LICENSE.txt'),resolve(directory,'gtpush-min.js.LICENSE.txt'));await copyFile(resolve(root,'online/vendor/LICENSE'),resolve(directory,'unipush-LICENSE.txt'));}
+
 console.log(JSON.stringify({output:resolve(directory,'index.html'),apiBase,bytes:Buffer.byteLength(html)}));
+
+await copyFile(resolve(root,'online/vendor/gtpush-min.js.LICENSE.txt'),resolve(directory,'gtpush-min.js.LICENSE.txt'));
+await copyFile(resolve(root,'online/vendor/LICENSE'),resolve(directory,'unipush-LICENSE.txt'));

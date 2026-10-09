@@ -43,7 +43,7 @@ export function matchedCourseTypes(c:CourseRule,t:Timetable,filter?:CourseFilter
 export type CourseRule={id:string;name:string;weekday:number;weeks:number[];start:string;end:string;location:string;category?:'course'|'activity';hiddenReason?:'public-elective';audiences?:CourseAudience[]};
 export type Timetable={id:string;label:string;term:string;week1Monday:string;note?:string;grade?:number;courses:CourseRule[];overrides:{date:string;sourceDate:string|null}[]};
 export type Curriculum={version:number;timetables:Timetable[]};
-export type CalendarEntry=Booking & {kind?:'course';gradeId?:string;term?:string;week?:number;confirmationKey?:string;courseTypes?:CourseType[];courseTone?:ReturnType<typeof courseTone>;audienceLabel?:string};
+export type CalendarEntry=Booking & {kind?:'course';gradeId?:string;term?:string;week?:number;confirmationKey?:string;courseTypes?:CourseType[];courseTone?:ReturnType<typeof courseTone>;audienceLabel?:string;hideLocation?:boolean};
 export const CURRICULUM_KEY='physics-club-curriculum-v1';
 const validDate=(v:unknown):v is string=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&Number.isFinite(Date.parse(v+'T00:00:00Z'))&&new Date(v+'T00:00:00Z').toISOString().slice(0,10)===v;
 const validTime=(v:unknown):v is string=>typeof v==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(v);
@@ -81,21 +81,41 @@ export function courseEntries(data:Curriculum,selected:string[],dates:string[],f
   for(const c of t.courses.filter(c=>c.weekday===weekday&&c.weeks.includes(week))){
    const courseTypes=matchedCourseTypes(c,t,filters[t.id]);if(!courseTypes.length)continue;
    const audienceLabel=c.audiences?.length?[...new Set(c.audiences.map(a=>`${a.major==='all'?(tableGrade(t)===1?'未分专业':'各专业'):MAJORS[a.major]} · ${a.group==='all'?'各班型':GROUPS[a.group]}${c.category==='activity'?'':` · ${COURSE_TYPES[a.requirement]}`}`))].join('；'):'适用专业 / 班型待核对';
-   const id=`course:${t.id}:${c.id}:${date}`;const confirmationKey=JSON.stringify([id,c.name,c.start,c.end,c.location,courseTypes,audienceLabel]);
-   entries.push({id,kind:'course',gradeId:t.id,club:t.label,term:t.term,week,activity:c.name,location:c.location,date,start:c.start,end:c.end,confirmationKey,courseTypes,audienceLabel,courseTone:courseTone(c,t,filters[t.id])});
+   const hideLocation=/^体育(?:$|[-—－（(])/.test(c.name.trim());
+   const activity=hideLocation?'体育':c.name,location=hideLocation?'':c.location;
+   const id=`course:${t.id}:${c.id}:${date}`;const confirmationKey=JSON.stringify([id,activity,c.start,c.end,location,courseTypes,audienceLabel]);
+   entries.push({id,kind:'course',gradeId:t.id,club:t.label,term:t.term,week,activity,location,hideLocation,date,start:c.start,end:c.end,confirmationKey,courseTypes,audienceLabel,courseTone:courseTone(c,t,filters[t.id])});
   }
- }return entries;
+ }
+ // Multiple personal timetables may describe the same session in different classrooms.
+ // Merge only after audience filtering, so unselected majors never contribute a location.
+ const groups=new Map<string,CalendarEntry[]>();
+ for(const entry of entries){
+  const key=JSON.stringify([entry.gradeId,entry.date,entry.activity,entry.start,entry.end,entry.courseTone,[...(entry.courseTypes??[])].sort()]);
+  groups.set(key,[...(groups.get(key)??[]),entry]);
+ }
+ return [...groups.values()].map(group=>{
+  if(group.length===1)return group[0];
+  const first=group[0];
+  const location=[...new Set(group.map(e=>e.location).filter(Boolean))].sort().join(' / ');
+  const audienceLabel=[...new Set(group.flatMap(e=>(e.audienceLabel??'').split('；')).filter(Boolean))].sort().join('；');
+  return {...first,location,audienceLabel,confirmationKey:JSON.stringify([first.id,first.activity,first.start,first.end,location,first.courseTypes,audienceLabel])};
+ });
 }
 export function findCourseConflicts(data:Curriculum,selected:string[],booking:Pick<Booking,'date'|'start'|'end'>,filters:CourseFilters={}){return courseEntries(data,selected,[booking.date],filters).filter(c=>overlaps(c,booking))}
 export function curriculumForBrowser(fallback:Curriculum){
  const raw=localStorage.getItem(CURRICULUM_KEY);if(!raw)return fallback;
  const saved=validateCurriculum(JSON.parse(raw));
- // Fill only missing labels on recognized legacy entries; preserve user edits, times and explicit classifications.
- const tables=saved.timetables.map(t=>{const source=fallback.timetables.find(x=>x.id===t.id&&x.term===t.term);return {...t,courses:t.courses.map(c=>{
-  if(c.audiences!==undefined||c.hiddenReason!==undefined||c.category==='activity')return c;
+ // Preserve stored rows and edits, fill missing labels, and append newly supplied source rules/grades.
+ const tables=saved.timetables.map(t=>{const source=fallback.timetables.find(x=>x.id===t.id&&x.term===t.term);return {...t,...(source&&['两份物理学专业个人课表合并，不代表全年级完整课表；同课程同时间同教室去重，不同教室保留。仅物理学排课，光信与国际班专属排课待补。','个人选课课表，尚不代表全年级。已按2024级物理学及拔尖计划方案核对必修/选修；当前仅录入物理学上课时间，光信及国际班专属课表待补。'].includes(t.note??'')?{note:source.note}:{}),...(!t.courses.length&&source?{note:source.note}:{}),courses:[...t.courses.map(c=>{
   const known=source?.courses.find(x=>x.id===c.id&&x.name===c.name);
+  // Add a newly supplied major only for the unchanged shared session; keep local edits and explicit requirements.
+  if(c.audiences?.length&&known&&c.weekday===known.weekday&&c.start===known.start&&c.end===known.end&&c.location===known.location&&JSON.stringify(c.weeks)===JSON.stringify(known.weeks)&&c.hiddenReason===undefined&&c.category!=='activity'){
+   return {...c,audiences:[...c.audiences,...(known.audiences??[]).filter(a=>!c.audiences!.some(saved=>saved.major===a.major))]};
+  }
+  if(c.audiences!==undefined||c.hiddenReason!==undefined||c.category==='activity')return c;
   return known?{...c,...(known.audiences?{audiences:known.audiences}:{}),...(known.hiddenReason?{hiddenReason:known.hiddenReason}:{})}:c;
- })}});
- return {...saved,timetables:[...tables,...fallback.timetables.filter(t=>!t.courses.length&&!tables.some(s=>s.id===t.id||tableGrade(s)===tableGrade(t))).slice(0,20-tables.length)]};
+ }),...(source?.courses??[]).filter(c=>!t.courses.some(saved=>saved.id===c.id)).slice(0,300-t.courses.length)]}});
+ return {...saved,timetables:[...tables,...fallback.timetables.filter(t=>!tables.some(s=>s.id===t.id||tableGrade(s)===tableGrade(t))).slice(0,20-tables.length)]};
 }
 export function dateRange(start:string,end:string){const dates:string[]=[];for(let date=start;date<=end;date=addDays(date,1))dates.push(date);return dates}

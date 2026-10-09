@@ -1,6 +1,8 @@
 import {build} from 'esbuild';
 import {mkdir,writeFile} from 'node:fs/promises';
-const directory='outputs/unicloud-deploy/uniCloud-aliyun/cloudfunctions/booking-api';
+const provider=process.env.UNICLOUD_PROVIDER||'alipay';
+if(!['alipay','aliyun'].includes(provider))throw new Error('Unsupported provider');
+const directory=`outputs/unicloud-deploy/uniCloud-${provider}/cloudfunctions/booking-api`;
 const pushEnabled=process.env.BOOKING_PUSH_ENABLED!=='0';
 await mkdir(directory,{recursive:true});
 await build({entryPoints:['unicloud/api.ts'],bundle:true,platform:'node',format:'cjs',target:'node16',define:{__BOOKING_PUSH_ENABLED__:JSON.stringify(pushEnabled)},outfile:directory+'/index.js'});
